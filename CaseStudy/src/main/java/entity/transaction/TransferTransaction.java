@@ -12,4 +12,8 @@ public class TransferTransaction extends AbstractTransaction{
     public String toString() {
         return "Transfer Transaction - " + super.toString() + ", Target Account: " + targetAccountId;
     }
+
+    public String getTargetAccountId() {
+        return targetAccountId;
+    }
 }

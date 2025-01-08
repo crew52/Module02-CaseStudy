@@ -31,22 +31,22 @@ class AccountTest {
     @Order(2)
     @Test
     void testDepositValidAmount() {
-        account.deposit(100.0);
+        account.deposit(100.0, false);
         assertEquals(100.0, account.getBalance());
     }
 
     @Order(3)
     @Test
     void testDepositInvalidAmount() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> account.deposit(-50.0));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> account.deposit(-50.0, false));
         assertEquals("Amount must be positive.", exception.getMessage());
     }
 
     @Order(4)
     @Test
     void testWithdrawValidAmount() {
-        account.deposit(200.0);
-        account.withdraw(100.0);
+        account.deposit(200.0, false);
+        account.withdraw(100.0, false);
         System.out.println("Number of transactions @Order(4): " + account.getTransactions().size());
         assertEquals(100.0, account.getBalance());
     }
@@ -54,14 +54,14 @@ class AccountTest {
     @Order(5)
     @Test
     void testWithdrawInvalidAmount() {
-        account.deposit(50.0);
+        account.deposit(50.0, false);
 
         // Withdraw amount greater than balance
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> account.withdraw(100.0));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> account.withdraw(100.0, false));
         assertEquals("Invalid amount.", exception.getMessage());
 
         // Withdraw negative amount
-        exception = assertThrows(IllegalArgumentException.class, () -> account.withdraw(-50.0));
+        exception = assertThrows(IllegalArgumentException.class, () -> account.withdraw(-50.0, false));
         assertEquals("Invalid amount.", exception.getMessage());
     }
 
@@ -69,8 +69,8 @@ class AccountTest {
     @Test
     void testTransactionsDetails() {
         // Perform deposit and withdraw
-        account.deposit(150.0);
-        account.withdraw(50.0);
+        account.deposit(150.0, false);
+        account.withdraw(50.0, false);
 
         System.out.println("Number of transactions @Order(6): " + account.getTransactions().size());
 

@@ -48,17 +48,26 @@ public abstract class Account implements IAccount{
     }
 
     @Override
-    public void deposit(double amount) {
+    public void deposit(double amount, boolean isTransfer) {
         if (amount <= 0) throw new IllegalArgumentException("Amount must be positive.");
-        balance += amount;
-        addTransaction(new DepositTransaction(amount));
+
+        if (!isTransfer) {
+            addTransaction(new DepositTransaction(amount));  // Tạo giao dịch nạp tiền
+        }
+
+        balance += amount;  // Cập nhật số dư
     }
 
     @Override
-    public void withdraw(double amount) {
+    public void withdraw(double amount, boolean isTransfer) {
         if (amount <= 0 || amount > balance) throw new IllegalArgumentException("Invalid amount.");
-        balance -= amount;
-        addTransaction(new WithdrawTransaction(amount));
+
+        // Nếu không phải là chuyển khoản, mới tạo giao dịch WithdrawTransaction
+        if (!isTransfer) {
+            addTransaction(new WithdrawTransaction(amount));  // Tạo giao dịch rút tiền
+        }
+
+        balance -= amount;  // Cập nhật số dư
     }
 
 }
