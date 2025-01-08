@@ -3,15 +3,35 @@ package entity.account;
 import entity.Customer;
 import entity.transaction.AbstractTransaction;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Account implements IAccount{
-    private String accountId;
-    private double balance;
-    private Customer owner;
-    private List<AbstractTransaction> transactions;
+public abstract class Account implements IAccount{
+    protected String accountId;
+    protected double balance;
+    protected Customer owner;
+    protected List<AbstractTransaction> transactions;
 
-    public void addTransaction(AbstractTransaction transaction) {
+    public Account(String accountId, Customer owner) {
+        this.accountId = accountId;
+        this.balance = 0.0d;
+        this.owner = owner;
+        this.transactions = new ArrayList<>();
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public Customer getOwner() {
+        return owner;
+    }
+
+    protected void addTransaction(AbstractTransaction transaction) {
         // TODO
     }
 
