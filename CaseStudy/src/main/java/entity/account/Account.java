@@ -2,6 +2,7 @@ package entity.account;
 
 import entity.Customer;
 import entity.transaction.AbstractTransaction;
+import entity.transaction.DepositTransaction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,11 +44,15 @@ public abstract class Account implements IAccount{
     @Override
     public void deposit(double amount) {
         // TODO
+        if (amount <= 0) throw new IllegalArgumentException("Amount must be positive.");
+        balance += amount;
     }
 
     @Override
     public void withdraw(double amount) {
         // TODO
+        if (amount <= 0 || amount > balance) throw new IllegalArgumentException("Invalid amount.");
+        balance -= amount;
     }
 
 }
