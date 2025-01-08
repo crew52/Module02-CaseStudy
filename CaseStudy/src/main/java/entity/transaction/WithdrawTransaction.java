@@ -1,10 +1,8 @@
 package entity.transaction;
 
-import java.util.Date;
-
 public class WithdrawTransaction extends AbstractTransaction{
-    public WithdrawTransaction(String transactionId, Date transactionDate, double amount) {
-        super(transactionId, transactionDate, amount);
+    public WithdrawTransaction(double amount) {
+        super(amount);
     }
 
     @Override

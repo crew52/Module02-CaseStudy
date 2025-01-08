@@ -1,15 +1,16 @@
 package entity.transaction;
 
 import java.util.Date;
+import java.util.UUID;
 
 public abstract class AbstractTransaction {
     private String transactionId;
     private Date transactionDate;
     private double amount;
 
-    public AbstractTransaction(String transactionId, Date transactionDate, double amount) {
-        this.transactionId = transactionId;
-        this.transactionDate = transactionDate;
+    public AbstractTransaction(double amount) {
+        this.transactionId = UUID.randomUUID().toString();
+        this.transactionDate = new Date();
         this.amount = amount;
     }
 

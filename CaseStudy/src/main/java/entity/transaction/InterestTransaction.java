@@ -1,10 +1,8 @@
 package entity.transaction;
 
-import java.util.Date;
-
 public class InterestTransaction extends AbstractTransaction {
-    public InterestTransaction(String transactionId, Date transactionDate, double amount) {
-        super(transactionId, transactionDate, amount);
+    public InterestTransaction(double amount) {
+        super(amount);
     }
 
     @Override
