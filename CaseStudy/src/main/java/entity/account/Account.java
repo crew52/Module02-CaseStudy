@@ -3,8 +3,11 @@ package entity.account;
 import entity.Customer;
 import entity.transaction.AbstractTransaction;
 import entity.transaction.DepositTransaction;
+import entity.transaction.TransferTransaction;
+import entity.transaction.WithdrawTransaction;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class Account implements IAccount{
@@ -34,11 +37,18 @@ public abstract class Account implements IAccount{
 
     protected void addTransaction(AbstractTransaction transaction) {
         // TODO
+        if (transaction != null) {
+            transactions.add(transaction); // Add the transaction to the list
+        } else {
+            throw new IllegalArgumentException("Transaction cannot be null.");
+        }
     }
 
     public List<AbstractTransaction> getTransactions() {
         // TODO
-        return transactions;
+        // Return an unmodifiable list to prevent external modification
+        return Collections.unmodifiableList(transactions);
+
     }
 
     @Override
@@ -46,6 +56,7 @@ public abstract class Account implements IAccount{
         // TODO
         if (amount <= 0) throw new IllegalArgumentException("Amount must be positive.");
         balance += amount;
+        addTransaction(new DepositTransaction(amount));
     }
 
     @Override
@@ -53,6 +64,7 @@ public abstract class Account implements IAccount{
         // TODO
         if (amount <= 0 || amount > balance) throw new IllegalArgumentException("Invalid amount.");
         balance -= amount;
+        addTransaction(new WithdrawTransaction(amount));
     }
 
 }

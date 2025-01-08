@@ -1,6 +1,8 @@
 package entity.account;
 
 import entity.Customer;
+import entity.transaction.DepositTransaction;
+import entity.transaction.WithdrawTransaction;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,6 +47,7 @@ class AccountTest {
     void testWithdrawValidAmount() {
         account.deposit(200.0);
         account.withdraw(100.0);
+        System.out.println("Number of transactions @Order(4): " + account.getTransactions().size());
         assertEquals(100.0, account.getBalance());
     }
 
@@ -62,4 +65,26 @@ class AccountTest {
         assertEquals("Invalid amount.", exception.getMessage());
     }
 
+    @Order(6)
+    @Test
+    void testTransactionsDetails() {
+        // Perform deposit and withdraw
+        account.deposit(150.0);
+        account.withdraw(50.0);
+
+        System.out.println("Number of transactions @Order(6): " + account.getTransactions().size());
+
+        // Ensure that there are exactly 2 transactions
+        assertEquals(2, account.getTransactions().size());
+
+        // Check that the first transaction is a DepositTransaction
+        assertInstanceOf(DepositTransaction.class, account.getTransactions().getFirst());
+        DepositTransaction depositTransaction = (DepositTransaction) account.getTransactions().get(0);
+        assertEquals(150.0, depositTransaction.getAmount());
+
+        // Check that the second transaction is a WithdrawTransaction
+        assertInstanceOf(WithdrawTransaction.class, account.getTransactions().get(1));
+        WithdrawTransaction withdrawTransaction = (WithdrawTransaction) account.getTransactions().get(1);
+        assertEquals(50.0, withdrawTransaction.getAmount());
+    }
 }
