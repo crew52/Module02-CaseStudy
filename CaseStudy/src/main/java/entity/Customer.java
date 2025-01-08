@@ -52,11 +52,6 @@ public class Customer {
         this.accounts = accounts;
     }
 
-    public boolean validateInput(){
-        //TODO
-        return true;
-    }
-
     @Override
     public String toString() {
         return "Customer{" +
