@@ -1,43 +1,74 @@
 package entity.account;
 
+import eNum.Term;
 import entity.Customer;
-import entity.transaction.DepositTransaction;
-import entity.transaction.InterestTransaction;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.EnumMap;
+import java.util.Map;
 
 public class SavingsAccount extends Account{
-    private double interestRate;
+    private Term term;
+    private LocalDate startDate;
+    private static final Map<Term, Double> penalties = new EnumMap<>(Term.class);
 
-    public SavingsAccount(String accountId, Customer owner, double interestRate) {
+    static {
+        penalties.put(Term.THREE_MONTHS, 0.01);
+        penalties.put(Term.SIX_MONTHS, 0.015);
+        penalties.put(Term.ONE_YEAR, 0.02);
+    }
+
+    public SavingsAccount(String accountId, Customer owner, Term term) {
         super(accountId, owner);
-        if (interestRate < 0) throw new IllegalArgumentException("Interest rate must be non-negative.");
-        this.interestRate = interestRate;
+        this.term = term;
+        this.startDate = LocalDate.now();
     }
 
-    public void calculateInterest() {
-        if (balance <= 0) {
-            System.out.println("No interest is calculated for zero or negative balance.");
-            return;
+    public double calculateCompoundInterest() {
+        if (term == null) throw new IllegalStateException("Term not set.");
+        double rate = term.getInterestRate();
+        double principal = getBalance();
+        int n = 12; // Compounded monthly
+        double t = term.getMonths() / 12.0; // Time in years
+        return principal * Math.pow(1 + rate / n, n * t);
+    }
+
+    public boolean canWithdraw() {
+        long monthsElapsed = ChronoUnit.MONTHS.between(startDate, LocalDate.now());
+        return monthsElapsed >= term.getMonths();
+    }
+
+    @Override
+    public void withdraw(double amount) {
+        if (!canWithdraw()) {
+            throw new IllegalStateException("Cannot withdraw before term ends.");
         }
-
-        // Tính lãi hàng tháng
-        double monthlyInterest = balance * (interestRate / 12);
-
-        // Cộng lãi vào số dư
-        balance += monthlyInterest;
-
-        // Thêm giao dịch tiền lãi vào danh sách giao dịch
-        addTransaction(new InterestTransaction(monthlyInterest));
-
-        System.out.printf("Interest of %.2f has been added to account %s. New balance: %.2f%n",
-                monthlyInterest, accountId, balance);
+        super.withdraw(amount);
     }
 
-    public double getInterestRate() {
-        return interestRate;
+    public void withdrawEarly(double amount) {
+        if (canWithdraw()) {
+            super.withdraw(amount);
+        } else {
+            double penaltyRate = penalties.getOrDefault(term, 0.02); // Default penalty 2%
+            double penalty = amount * penaltyRate;
+            System.out.println("Early withdrawal penalty: " + penalty);
+            super.withdraw(amount + penalty);
+        }
     }
 
-    public void setInterestRate(double interestRate) {
-        if (interestRate < 0) throw new IllegalArgumentException("Interest rate must be non-negative.");
-        this.interestRate = interestRate;
+    public void applyInterest() {
+        double interest = calculateCompoundInterest() - getBalance();
+        deposit(interest);
+        System.out.println("Interest applied: " + interest);
+    }
+
+    public Term getTerm() {
+        return term;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
     }
 }
