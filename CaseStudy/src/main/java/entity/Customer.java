@@ -1,6 +1,7 @@
 package entity;
 
 import entity.account.Account;
+import validation.CustomerValidator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,15 +18,7 @@ public class Customer {
     }
 
     public Customer(String id, String name, String contactInfo, List<Account> accounts) {
-        if (id == null || id.trim().isEmpty()) {
-            throw new IllegalArgumentException("ID cannot be null or empty");
-        }
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null or empty");
-        }
-        if (contactInfo == null || contactInfo.trim().isEmpty()) {
-            throw new IllegalArgumentException("Contact information cannot be null or empty");
-        }
+        CustomerValidator.validate(id, name, contactInfo);
         this.id = id;
         this.name = name;
         this.contactInfo = contactInfo;
@@ -37,9 +30,7 @@ public class Customer {
     }
 
     public void setId(String id) {
-        if (id == null || id.trim().isEmpty()) {
-            throw new IllegalArgumentException("ID cannot be null or empty");
-        }
+        CustomerValidator.validateId(id);
         this.id = id;
     }
 
@@ -48,9 +39,7 @@ public class Customer {
     }
 
     public void setName(String name) {
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null or empty");
-        }
+        CustomerValidator.validateName(name);
         this.name = name;
     }
 
@@ -59,9 +48,7 @@ public class Customer {
     }
 
     public void setContactInfo(String contactInfo) {
-        if (contactInfo == null || contactInfo.trim().isEmpty()) {
-            throw new IllegalArgumentException("Contact information cannot be null or empty");
-        }
+        CustomerValidator.validateContactInfo(contactInfo);
         this.contactInfo = contactInfo;
     }
 
