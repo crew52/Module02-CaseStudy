@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class Account implements IAccount{
+public class Account implements IAccount{
     protected String accountId;
     protected double balance;
     protected Customer owner;
@@ -19,6 +19,9 @@ public abstract class Account implements IAccount{
         this.balance = 0.0d;
         this.owner = owner;
         this.transactions = new ArrayList<>();
+    }
+
+    public Account() {
     }
 
     public String getAccountId() {
