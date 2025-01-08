@@ -2,6 +2,8 @@ package entity.account;
 
 import eNum.Term;
 import entity.Customer;
+import validation.AccountValidator;
+import validation.SavingsAccountValidator;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -44,13 +46,14 @@ public class SavingsAccount extends Account{
 
     @Override
     public void withdraw(double amount) {
-        if (!canWithdraw()) {
-            throw new IllegalStateException("Cannot withdraw before term ends.");
-        }
+        SavingsAccountValidator.validateTerm(this);
+        SavingsAccountValidator.validateCanWithdraw(this);
+        AccountValidator.validatePositiveAmount(amount);
         super.withdraw(amount);
     }
 
     public void withdrawEarly(double amount) {
+        AccountValidator.validatePositiveAmount(amount);
         if (term == null) {
             System.out.println("Default penalty applied due to no term.");
             double penalty = amount * 0.02; // Default penalty

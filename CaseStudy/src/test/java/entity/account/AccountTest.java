@@ -47,7 +47,6 @@ class AccountTest {
     void testWithdrawValidAmount() {
         account.deposit(200.0);
         account.withdraw(100.0);
-        System.out.println("Number of transactions @Order(4): " + account.getTransactions().size());
         assertEquals(100.0, account.getBalance());
     }
 
@@ -71,8 +70,6 @@ class AccountTest {
         // Perform deposit and withdraw
         account.deposit(150.0);
         account.withdraw(50.0);
-
-        System.out.println("Number of transactions @Order(6): " + account.getTransactions().size());
 
         // Ensure that there are exactly 2 transactions
         assertEquals(2, account.getTransactions().size());

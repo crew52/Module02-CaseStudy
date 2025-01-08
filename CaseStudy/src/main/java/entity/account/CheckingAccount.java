@@ -1,9 +1,8 @@
 package entity.account;
 
 import entity.Customer;
-import entity.transaction.DepositTransaction;
 import entity.transaction.TransferTransaction;
-import entity.transaction.WithdrawTransaction;
+import validation.AccountValidator;
 
 public class CheckingAccount extends Account {
 
@@ -12,23 +11,10 @@ public class CheckingAccount extends Account {
     }
 
     public void transfer(Account targetAccount, double amount) {
-        if (amount <= 0) {
-            throw new IllegalArgumentException("Amount must be positive.");
-        }
-
-        if (this == targetAccount) {
-            throw new IllegalArgumentException("Cannot transfer money to the same account.");
-        }
-
-        // Kiểm tra tài khoản đích có hợp lệ không
-        if (targetAccount == null) {
-            throw new IllegalArgumentException("Target account cannot be null.");
-        }
-
-        // Kiểm tra số dư tài khoản nguồn
-        if (amount > this.balance) {
-            throw new IllegalArgumentException("Insufficient balance.");
-        }
+        AccountValidator.validatePositiveAmount(amount);
+        AccountValidator.validateDifferentAccounts(this, targetAccount);
+        AccountValidator.validateTargetAccount(targetAccount);
+        AccountValidator.validateSufficientBalance(this, amount);
 
         // Thực hiện rút tiền từ tài khoản nguồn
         withdraw(amount, true);
