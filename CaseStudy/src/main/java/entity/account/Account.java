@@ -70,4 +70,11 @@ public abstract class Account implements IAccount{
         balance -= amount;  // Cập nhật số dư
     }
 
+    public void withdraw(double amount) {
+        withdraw(amount, false);
+    }
+
+    public void deposit(double amount) {
+        deposit(amount, false);
+    }
 }

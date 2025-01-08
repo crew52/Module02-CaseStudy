@@ -20,7 +20,7 @@ class CheckingAccountTest {
 
     @Test
     void testTransferValidAmount() {
-        account1.deposit(200.0, false);
+        account1.deposit(200.0);
         account1.transfer(account2, 100.0);
 
         assertEquals(100.0, account1.getBalance(), "Account 1 balance after transfer");
