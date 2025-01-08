@@ -17,25 +17,16 @@ public abstract class AbstractTransaction {
         return transactionId;
     }
 
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
-    }
-
     public Date getTransactionDate() {
         return transactionDate;
-    }
-
-    public void setTransactionDate(Date transactionDate) {
-        this.transactionDate = transactionDate;
     }
 
     public double getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    @Override
+    public String toString() {
+        return "Transaction ID: " + transactionId + ", Date: " + transactionDate + ", Amount: " + amount;
     }
-
-    public abstract void execute();
 }
