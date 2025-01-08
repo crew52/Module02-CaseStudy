@@ -35,6 +35,9 @@ public class SavingsAccount extends Account{
     }
 
     public boolean canWithdraw() {
+        if (term == null) {
+            return false; // Không cho phép rút nếu không có kỳ hạn
+        }
         long monthsElapsed = ChronoUnit.MONTHS.between(startDate, LocalDate.now());
         return monthsElapsed >= term.getMonths();
     }
@@ -48,6 +51,12 @@ public class SavingsAccount extends Account{
     }
 
     public void withdrawEarly(double amount) {
+        if (term == null) {
+            System.out.println("Default penalty applied due to no term.");
+            double penalty = amount * 0.02; // Default penalty
+            super.withdraw(amount + penalty);
+            return;
+        }
         if (canWithdraw()) {
             super.withdraw(amount);
         } else {
