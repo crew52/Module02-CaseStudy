@@ -1,12 +1,22 @@
 package utility;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class FileManagerImpl <T> implements FileManager <T>{
     @Override
+    public boolean fileExists(String filename) {
+        File file = new File(filename);
+        return file.exists();
+    }
+
+    @Override
     public void writeToFile(List<T> data, String filename) {
+        if (!fileExists(filename)) {
+            System.out.println("File does not exist. Creating new file...");
+        }
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filename))) {
             outputStream.writeObject(data);
             System.out.println("Data has been written to file.");
@@ -17,6 +27,11 @@ public class FileManagerImpl <T> implements FileManager <T>{
 
     @Override
     public List<T> readFromFile(String filename) {
+        if (!fileExists(filename)) {
+            System.err.println("File does not exist.");
+            return new ArrayList<>(); // Trả về danh sách rỗng nếu không tìm thấy tệp
+        }
+
         List<T> data = null;
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filename))) {
             data = (List<T>) inputStream.readObject();
@@ -29,6 +44,10 @@ public class FileManagerImpl <T> implements FileManager <T>{
 
     @Override
     public T searchInFile(String filename, String searchCriteria) {
+        if (!fileExists(filename)) {
+            System.err.println("File does not exist.");
+            return null; // Không tìm thấy tệp
+        }
         List<T> data = readFromFile(filename);
         if (data != null) {
             for (T item : data) {
@@ -43,6 +62,10 @@ public class FileManagerImpl <T> implements FileManager <T>{
 
     @Override
     public void updateInFile(String filename, T oldEntity, T newEntity) {
+        if (!fileExists(filename)) {
+            System.err.println("File does not exist.");
+            return;
+        }
         List<T> data = readFromFile(filename);
         if (data != null) {
             int index = data.indexOf(oldEntity);
@@ -56,6 +79,10 @@ public class FileManagerImpl <T> implements FileManager <T>{
 
     @Override
     public void deleteFromFile(String filename, String searchCriteria) {
+        if (!fileExists(filename)) {
+            System.err.println("File does not exist.");
+            return;
+        }
         List<T> data = readFromFile(filename);
         if (data != null) {
             data = data.stream()

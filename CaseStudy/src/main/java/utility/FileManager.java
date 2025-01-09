@@ -3,6 +3,7 @@ package utility;
 import java.util.List;
 
 public interface FileManager<T>{
+    boolean fileExists(String filename);
     // Ghi danh sách đối tượng vào file
     void writeToFile(List<T> data, String filename);
 
