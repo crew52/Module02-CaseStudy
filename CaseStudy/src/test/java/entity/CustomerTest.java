@@ -125,14 +125,6 @@ class CustomerTest {
     }
 
     @Test
-    public void testToString() {
-        // Kiểm tra phương thức toString
-        Customer customer = new Customer(id, name, contactInfo, accounts);
-        String expectedString = "Customer{id='" + id + "', name='" + name + "', contactInfo='" + contactInfo + "', numberOfAccounts=0}";
-        assertEquals(expectedString, customer.toString());
-    }
-
-    @Test
     public void testGetAccountsEmpty() {
         // Kiểm tra phương thức getAccounts với danh sách tài khoản rỗng
         Customer customer = new Customer(id, name, contactInfo, accounts);

@@ -3,6 +3,7 @@ package entity;
 import entity.account.Account;
 import validation.CustomerValidator;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,6 +11,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class Customer implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private String id;
     private String name;
     private String contactInfo;
