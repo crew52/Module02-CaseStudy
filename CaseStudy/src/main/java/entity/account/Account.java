@@ -4,11 +4,16 @@ import entity.Customer;
 import entity.transaction.AbstractTransaction;
 import entity.transaction.DepositTransaction;
 import entity.transaction.WithdrawTransaction;
+
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Account implements IAccount{
+public class Account implements IAccount, Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     protected String accountId;
     protected double balance;
     protected Customer owner;
@@ -79,5 +84,15 @@ public class Account implements IAccount{
 
     public void deposit(double amount) {
         deposit(amount, false);
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "accountId='" + accountId + '\'' +
+                ", balance=" + balance +
+                ", owner=" + owner.getId() +
+                ", numberOfTransactions=" + (transactions != null ? transactions.size() : 0) +
+                '}';
     }
 }
