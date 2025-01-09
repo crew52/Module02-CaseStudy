@@ -85,7 +85,6 @@ class CustomerServiceImplTest {
     public void testDeleteCustomerById() {
         Customer customer = new Customer("1", "John Doe", "jone@gamil.com", null);
         customerService.saveCustomer(customer);
-
         customerService.deleteCustomerById("1");
         Customer deletedCustomer = customerService.getCustomerById("1");
         assertNull(deletedCustomer);

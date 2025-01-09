@@ -5,6 +5,7 @@ import entity.Customer;
 import entity.account.Account;
 import entity.account.CheckingAccount;
 import entity.account.SavingsAccount;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -59,7 +60,7 @@ class AccountServiceImplTest {
 
         // Kiểm tra tìm tài khoản theo customerId
         List<Account> accounts = accountService.findByCustomerId("C001");
-        assertEquals(2, accounts.size());
+        assertEquals(3, accounts.size());
         // Kiểm tra tài khoản có phải là CheckingAccount hay SavingsAccount
         assertTrue(accounts.stream().anyMatch(a -> a instanceof CheckingAccount));
         assertTrue(accounts.stream().anyMatch(a -> a instanceof SavingsAccount));

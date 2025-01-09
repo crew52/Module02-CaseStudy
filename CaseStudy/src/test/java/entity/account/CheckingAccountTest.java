@@ -13,7 +13,7 @@ class CheckingAccountTest {
 
     @BeforeEach
     void setUp() {
-        Customer customer = new Customer("C001", "John Doe", "123-456-7890", null);
+        Customer customer = new Customer("C001", "John Doe", "dung@gmail.com", null);
         account1 = new CheckingAccount("A001", customer);
         account2 = new CheckingAccount("A002", customer);
     }

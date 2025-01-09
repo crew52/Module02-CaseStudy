@@ -16,7 +16,7 @@ class SavingsAccountTest {
 
     @BeforeEach
     void setUp() {
-        customer = new Customer("C001", "John Doe", "123-456-7890", null);
+        customer = new Customer("C001", "John Doe", "dung@gmail.com", null);
         account = new SavingsAccount("A001", customer, Term.SIX_MONTHS);
         account.deposit(1000.0);
     }
