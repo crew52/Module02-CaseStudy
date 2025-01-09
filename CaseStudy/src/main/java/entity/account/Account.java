@@ -4,6 +4,7 @@ import entity.Customer;
 import entity.transaction.AbstractTransaction;
 import entity.transaction.DepositTransaction;
 import entity.transaction.WithdrawTransaction;
+import utility.TransactionUtil;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -60,7 +61,9 @@ public class Account implements IAccount, Serializable {
         if (amount <= 0) throw new IllegalArgumentException("Amount must be positive.");
 
         if (!isTransfer) {
-            addTransaction(new DepositTransaction(amount));  // Tạo giao dịch nạp tiền
+            AbstractTransaction transaction = new DepositTransaction(amount);
+            addTransaction(transaction);  // Tạo giao dịch nạp tiền
+            TransactionUtil.addTransactionToSystem(transaction);
         }
 
         balance += amount;  // Cập nhật số dư
@@ -72,7 +75,9 @@ public class Account implements IAccount, Serializable {
 
         // Nếu không phải là chuyển khoản, mới tạo giao dịch WithdrawTransaction
         if (!isTransfer) {
-            addTransaction(new WithdrawTransaction(amount));  // Tạo giao dịch rút tiền
+            AbstractTransaction transaction = new WithdrawTransaction(amount);
+            addTransaction(transaction);  // Tạo giao dịch rút tiền
+            TransactionUtil.addTransactionToSystem(transaction);
         }
 
         balance -= amount;  // Cập nhật số dư

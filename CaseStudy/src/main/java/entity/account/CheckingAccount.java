@@ -1,7 +1,9 @@
 package entity.account;
 
 import entity.Customer;
+import entity.transaction.AbstractTransaction;
 import entity.transaction.TransferTransaction;
+import utility.TransactionUtil;
 import validation.AccountValidator;
 
 public class CheckingAccount extends Account {
@@ -23,7 +25,9 @@ public class CheckingAccount extends Account {
         targetAccount.deposit(amount, true);
 
         // Tạo giao dịch chuyển khoản cho tài khoản nguồn
-        addTransaction(new TransferTransaction(amount, targetAccount.getAccountId()));
+        AbstractTransaction transaction = new TransferTransaction(amount, targetAccount.getAccountId());
+        addTransaction(transaction);
+        TransactionUtil.addTransactionToSystem(transaction);
 
         // Tạo giao dịch chuyển khoản cho tài khoản đích
         targetAccount.addTransaction(new TransferTransaction(amount, this.getAccountId()));
