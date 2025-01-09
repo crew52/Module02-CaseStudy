@@ -13,8 +13,10 @@ public class Customer {
     private String name;
     private String contactInfo;
     private List<Account> accounts;
+    private boolean isActive;
 
     public Customer() {
+        this.isActive = true;
     }
 
     public Customer(String id, String name, String contactInfo, List<Account> accounts) {
@@ -23,6 +25,7 @@ public class Customer {
         this.name = name;
         this.contactInfo = contactInfo;
         this.accounts = accounts != null ? new ArrayList<>(accounts) : new ArrayList<>();
+        this.isActive = true;
     }
 
     public String getId() {
@@ -78,6 +81,15 @@ public class Customer {
                 ", name='" + name + '\'' +
                 ", contactInfo='" + contactInfo + '\'' +
                 ", numberOfAccounts=" + (accounts != null ? accounts.size() : 0) +
+                ", isActive=" + isActive +
                 '}';
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }
